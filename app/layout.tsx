@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/global/theme-provider";
 import { HydrationErrorSuppressor } from "@/components/global/hydration-error-suppressor";
 import { DevNotice } from "@/components/global/dev-notice";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -36,6 +37,7 @@ export default function RootLayout({
             <Toaster />
             <DevNotice />
           </ThemeProvider>
+          <Analytics />
       </body>
     </html>
   );
