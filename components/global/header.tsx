@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { BrainCircuit, Github } from "lucide-react"
+import { BrainCircuit } from "lucide-react"
 import { ModeToggle } from "@/components/global/mode-toggle"
 import {
   NavigationMenu,
@@ -59,15 +59,6 @@ export function Header() {
           </NavigationMenu>
         </div>
         <div className="flex items-center space-x-4">
-          <Button asChild size="sm" variant="ghost">
-            <Link
-              href="https://github.com/shantanushinde99/DSA-Visualizer-"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github className="h-5 w-5" />
-            </Link>
-          </Button>
           <ModeToggle />
         </div>
       </div>
