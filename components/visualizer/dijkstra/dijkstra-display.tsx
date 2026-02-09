@@ -12,7 +12,7 @@ import ReactFlow, {
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import { Graph } from '@/hooks/use-dijkstra'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import GraphNode from '@/components/visualizer/dijkstra/graph-node'
 
@@ -44,7 +44,12 @@ export function DijkstraDisplay({
 }: DijkstraDisplayProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState([])
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
+  const [mounted, setMounted] = useState(false)
   const { theme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     // Convert graph nodes to ReactFlow nodes
