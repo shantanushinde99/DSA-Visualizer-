@@ -127,7 +127,7 @@ export function DijkstraDisplay({
         proOptions={{ hideAttribution: true }}
       >
         <Background 
-          color={theme === 'dark' ? '#ffffff' : '#000000'} 
+          color={mounted && theme === 'dark' ? '#ffffff' : '#000000'} 
           gap={12} 
           size={1} 
         />

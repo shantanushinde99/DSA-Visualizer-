@@ -11,7 +11,7 @@ import ReactFlow, {
 import 'reactflow/dist/style.css'
 import { HeapNode } from './types'
 import TreeNode from '../binary-tree/tree-node'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 
 interface HeapDisplayProps {
@@ -26,7 +26,12 @@ const nodeTypes = {
 export function HeapDisplay({ heap, highlightedNodes }: HeapDisplayProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState([])
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
+  const [mounted, setMounted] = useState(false)
   const { theme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (!heap) {
@@ -119,7 +124,7 @@ export function HeapDisplay({ heap, highlightedNodes }: HeapDisplayProps) {
         proOptions={{ hideAttribution: true }}
       >
         <Background 
-          color={theme === 'dark' ? '#ffffff' : '#000000'} 
+          color={mounted && theme === 'dark' ? '#ffffff' : '#000000'} 
           gap={12} 
           size={1} 
           className="opacity-[0.02]"

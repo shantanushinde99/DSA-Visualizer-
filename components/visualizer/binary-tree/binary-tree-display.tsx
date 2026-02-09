@@ -28,7 +28,12 @@ export function BinaryTreeDisplay({ tree, highlightedNodes }: BinaryTreeDisplayP
   const [nodes, setNodes, onNodesChange] = useNodesState([])
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null)
+  const [mounted, setMounted] = useState(false)
   const { theme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Handle flow instance initialization
   const onInit = useCallback((flowInstance: ReactFlowInstance) => {
@@ -143,7 +148,7 @@ export function BinaryTreeDisplay({ tree, highlightedNodes }: BinaryTreeDisplayP
         className="transition-all duration-300" 
       >
         <Background 
-          color={theme === 'dark' ? '#ffffff' : '#000000'} 
+          color={mounted && theme === 'dark' ? '#ffffff' : '#000000'} 
           gap={12} 
           size={1} 
         />  
