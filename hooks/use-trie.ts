@@ -18,6 +18,20 @@ export interface TrieStep {
   description: string;
 }
 
+function cloneTrieNode(node: TrieNode): TrieNode {
+  const cloned: TrieNode = {
+    char: node.char,
+    children: new Map(),
+    isEndOfWord: node.isEndOfWord,
+    id: node.id,
+    level: node.level,
+  };
+  node.children.forEach((child, key) => {
+    cloned.children.set(key, cloneTrieNode(child));
+  });
+  return cloned;
+}
+
 export function useTrie() {
   const [root, setRoot] = useState<TrieNode>(() => ({
     char: "",
@@ -43,19 +57,7 @@ export function useTrie() {
   const insert = useCallback((word: string) => {
     if (!word.trim()) return;
 
-    const newRoot = JSON.parse(JSON.stringify(root, (key, value) => {
-      if (value instanceof Map) {
-        return Array.from(value.entries());
-      }
-      return value;
-    }));
-
-    const reconstructedRoot = JSON.parse(JSON.stringify(newRoot), (key, value) => {
-      if (Array.isArray(value) && value.length > 0 && Array.isArray(value[0])) {
-        return new Map(value);
-      }
-      return value;
-    });
+    const reconstructedRoot = cloneTrieNode(root);
 
     const newSteps: TrieStep[] = [];
     const path: string[] = [];
@@ -235,19 +237,7 @@ export function useTrie() {
   const deleteWord = useCallback((word: string) => {
     if (!word.trim()) return;
 
-    const newRoot = JSON.parse(JSON.stringify(root, (key, value) => {
-      if (value instanceof Map) {
-        return Array.from(value.entries());
-      }
-      return value;
-    }));
-
-    const reconstructedRoot = JSON.parse(JSON.stringify(newRoot), (key, value) => {
-      if (Array.isArray(value) && value.length > 0 && Array.isArray(value[0])) {
-        return new Map(value);
-      }
-      return value;
-    });
+    const reconstructedRoot = cloneTrieNode(root);
 
     const newSteps: TrieStep[] = [];
     const path: string[] = [];
@@ -348,3 +338,4 @@ export function useTrie() {
     loadSampleWords,
   };
 }
+
