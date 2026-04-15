@@ -29,7 +29,8 @@ export function AVLTreeDisplay({ tree, highlightedNodes }: AVLTreeDisplayProps) 
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null)
   const [mounted, setMounted] = useState(false)
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
+  const currentTheme = mounted ? resolvedTheme : 'light'
 
   useEffect(() => {
     setMounted(true)
@@ -91,7 +92,7 @@ export function AVLTreeDisplay({ tree, highlightedNodes }: AVLTreeDisplayProps) 
           target: node.id,
           type: 'default',
           style: { 
-            stroke: theme === 'dark' ? '#ffffff' : '#000000',
+            stroke: currentTheme === 'dark' ? '#ffffff' : '#000000',
             strokeWidth: 1.5,
             opacity: 0.5,
           },
@@ -124,7 +125,7 @@ export function AVLTreeDisplay({ tree, highlightedNodes }: AVLTreeDisplayProps) 
     setNodes(newNodes)
     setEdges(newEdges)
     fitView()
-  }, [tree, highlightedNodes, setNodes, setEdges, fitView, theme])
+  }, [tree, highlightedNodes, setNodes, setEdges, fitView, currentTheme])
 
   return (
     <div className="w-full h-[600px] bg-background rounded-lg overflow-hidden">
@@ -147,7 +148,7 @@ export function AVLTreeDisplay({ tree, highlightedNodes }: AVLTreeDisplayProps) 
         className="transition-all duration-300"
       >
         <Background 
-          color={mounted && theme === 'dark' ? '#ffffff' : '#000000'} 
+          color={currentTheme === 'dark' ? '#ffffff' : '#000000'} 
           gap={12} 
           size={1} 
         />

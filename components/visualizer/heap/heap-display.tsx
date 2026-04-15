@@ -27,7 +27,8 @@ export function HeapDisplay({ heap, highlightedNodes }: HeapDisplayProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState([])
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [mounted, setMounted] = useState(false)
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
+  const currentTheme = mounted ? resolvedTheme : 'light'
 
   useEffect(() => {
     setMounted(true)
@@ -72,7 +73,7 @@ export function HeapDisplay({ heap, highlightedNodes }: HeapDisplayProps) {
           target: node.id,
           type: 'default',
           style: { 
-            stroke: theme === 'dark' ? '#ffffff' : '#000000',
+            stroke: currentTheme === 'dark' ? '#ffffff' : '#000000',
             strokeWidth: 1.5,
             opacity: 0.5,
           },
@@ -103,7 +104,7 @@ export function HeapDisplay({ heap, highlightedNodes }: HeapDisplayProps) {
     processNode(heap)
     setNodes(newNodes)
     setEdges(newEdges)
-  }, [heap, highlightedNodes, setNodes, setEdges, theme])
+  }, [heap, highlightedNodes, setNodes, setEdges, currentTheme])
 
   return (
     <div className="w-full h-[600px] bg-background rounded-lg overflow-hidden">
@@ -124,7 +125,7 @@ export function HeapDisplay({ heap, highlightedNodes }: HeapDisplayProps) {
         proOptions={{ hideAttribution: true }}
       >
         <Background 
-          color={mounted && theme === 'dark' ? '#ffffff' : '#000000'} 
+          color={currentTheme === 'dark' ? '#ffffff' : '#000000'} 
           gap={12} 
           size={1} 
           className="opacity-[0.02]"

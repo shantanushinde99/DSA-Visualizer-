@@ -45,7 +45,8 @@ export function DijkstraDisplay({
   const [nodes, setNodes, onNodesChange] = useNodesState([])
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [mounted, setMounted] = useState(false)
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
+  const currentTheme = mounted ? resolvedTheme : 'light'
 
   useEffect(() => {
     setMounted(true)
@@ -88,18 +89,18 @@ export function DijkstraDisplay({
           strokeWidth: 2,
           stroke: isPathEdge 
             ? '#10b981' 
-            : theme === 'dark' ? '#fff' : '#000',
+            : currentTheme === 'dark' ? '#fff' : '#000',
         },
         labelStyle: {
-          fill: theme === 'dark' ? '#fff' : '#000',
+          fill: currentTheme === 'dark' ? '#fff' : '#000',
           fontWeight: '700',
           fontSize: '14px',
         },
         labelBgStyle: {
-          fill: theme === 'dark' ? '#1e293b' : '#e2e8f0',
+          fill: currentTheme === 'dark' ? '#1e293b' : '#e2e8f0',
           fillOpacity: 0.9,
           rx: 4,
-          stroke: theme === 'dark' ? '#334155' : '#94a3b8',
+          stroke: currentTheme === 'dark' ? '#334155' : '#94a3b8',
           strokeWidth: 1,
           padding: 4,
         },
@@ -109,7 +110,7 @@ export function DijkstraDisplay({
 
     setNodes(flowNodes)
     setEdges(flowEdges)
-  }, [graph, distances, path, currentNode, visitedNodes, theme])
+  }, [graph, distances, path, currentNode, visitedNodes, currentTheme])
 
   return (
     <div className="h-[800px] bg-background rounded-lg overflow-hidden border">
@@ -132,7 +133,7 @@ export function DijkstraDisplay({
         proOptions={{ hideAttribution: true }}
       >
         <Background 
-          color={mounted && theme === 'dark' ? '#ffffff' : '#000000'} 
+          color={currentTheme === 'dark' ? '#ffffff' : '#000000'} 
           gap={12} 
           size={1} 
         />
